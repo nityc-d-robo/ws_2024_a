@@ -1,3 +1,6 @@
 [submodule "launch_2024_a"]
 	path = launch_2024_a
 	url = https://github.com/nityc-d-robo/launch_2024_a
+[submodule "mecanum_control"]
+	path = mecanum_control
+	url = https://github.com/nityc-d-robo/mecanum_control/
