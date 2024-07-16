@@ -6,8 +6,6 @@
 	path = src/robo1_2024_a
 	url = https://github.com/nityc-d-robo/robo1_2024_a
 
-
-
 [submodule "src/robo2_1_2024_a"]
 	path = src/robo2_1_2024_a
 	url = https://github.com/nityc-d-robo/robo2_1_2024_a
