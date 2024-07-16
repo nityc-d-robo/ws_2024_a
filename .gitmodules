@@ -1,6 +1,24 @@
-[submodule "launch_2024_a"]
-	path = launch_2024_a
+[submodule "src/launch_2024_a"]
+	path = src/launch_2024_a
 	url = https://github.com/nityc-d-robo/launch_2024_a
-[submodule "mecanum_control"]
-	path = mecanum_control
-	url = https://github.com/nityc-d-robo/mecanum_control/
+
+[submodule "src/robo1_2024_a"]
+	path = src/robo1_2024_a
+	url = https://github.com/nityc-d-robo/robo1_2024_a
+
+
+
+[submodule "src/robo2_1_2024_a"]
+	path = src/robo2_1_2024_a
+	url = https://github.com/nityc-d-robo/robo2_1_2024_a
+
+[submodule "src/robo2_2_1_2024_a"]
+	path = src/robo2_2_1_2024_a
+	url = https://github.com/nityc-d-robo/robo2_2_1_2024_a
+
+[submodule "src/robo2_2_2_2024_a"]
+	path = src/robo2_2_2_2024_a
+	url = https://github.com/nityc-d-robo/robo2_2_2_2024_a
+[submodule "src/robo2_3_2024_a"]
+	path = src/robo2_3_2024_a
+	url = https://github.com/nityc-d-robo/robo2_3_2024_a
