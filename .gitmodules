@@ -16,3 +16,6 @@
 [submodule "src/launch_2024_a"]
 	path = src/launch_2024_a
 	url = https://github.com/nityc-d-robo/launch_2024_a
+[submodule "src/director_2024_a"]
+	path = src/director_2024_a
+	url = https://github.com/nityc-d-robo/director_2024_a
