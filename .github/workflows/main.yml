@@ -33,6 +33,7 @@ jobs:
           apt-get update && 
           apt-get install -y git &&
           rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }} &&
+          sudo apt install python3-pip &&
           pip install git+https://github.com/tier4/colcon-cargo.git &&
           pip install git+https://github.com/colcon/colcon-ros-cargo.git &&
           cd cargo-ament-build &&
