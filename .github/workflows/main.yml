@@ -26,13 +26,12 @@ jobs:
       image: ros:${{ matrix.rosdistro }}-ros-base
 
     steps:
-        
       - name: Install dependencies
         run: |
           rosdep update && 
           apt-get update && 
           apt install -y curl gnupg2 lsb-release python3-pip git &&
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y　&& 
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && 
           source $HOME/.cargo/env &&
           rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }} &&
           pip install git+https://github.com/tier4/colcon-cargo.git --break-system-packages &&
@@ -41,7 +40,7 @@ jobs:
           cd cargo-ament-build &&
           cargo install --path . &&
           cd ~/
-
+      
       - name: Check out repository
         uses: actions/checkout@v3
         with:
