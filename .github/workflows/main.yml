@@ -32,7 +32,7 @@ jobs:
           rosdep update && 
           apt-get update && 
           apt install -y curl gnupg2 lsb-release python3-pip git &&
-          curl https://sh.rustup.rs -sSf | sh -s -- -y　&& 
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y　&& 
           source $HOME/.cargo/env &&
           rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }} &&
           pip install git+https://github.com/tier4/colcon-cargo.git --break-system-packages &&
