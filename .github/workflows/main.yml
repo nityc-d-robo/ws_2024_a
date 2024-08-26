@@ -36,6 +36,7 @@ jobs:
           sudo apt -y install python3-pip &&
           pip install git+https://github.com/tier4/colcon-cargo.git --break-system-packages &&
           pip install git+https://github.com/colcon/colcon-ros-cargo.git --break-system-packages &&
+          git clone https://github.com/tier4/cargo-ament-build.git &&
           cd cargo-ament-build &&
           cargo install --path . &&
           cd ~/
