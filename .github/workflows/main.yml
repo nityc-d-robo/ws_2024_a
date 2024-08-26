@@ -54,5 +54,6 @@ jobs:
       - name: Build tests
         run: |
           source "$HOME/.cargo/env" &&
-          cargo new test_1
+          . /opt/ros/${{ matrix.rosdistro }}/setup.sh && 
+          colcon build
         shell: bash
