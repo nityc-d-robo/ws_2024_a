@@ -26,21 +26,23 @@ jobs:
       image: ros:${{ matrix.rosdistro }}-ros-base
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
-      - name: Run git status
-        id: status
-        run: echo "::set-output name=status::$(git status -s)"   
         
       - name: Install dependencies
         run: |
           rosdep update && 
           apt-get update && 
           apt-get install -y git &&
-          rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }}
+          rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }} &&
+          pip install git+https://github.com/tier4/colcon-cargo.git &&
+          pip install git+https://github.com/colcon/colcon-ros-cargo.git &&
+          cd cargo-ament-build &&
+          cargo install --path . &&
+          cd ~/
+
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive 
 
       - name: Install diagnostic-updater
         run: apt-get install ros-${{ matrix.rosdistro }}-diagnostic-updater
