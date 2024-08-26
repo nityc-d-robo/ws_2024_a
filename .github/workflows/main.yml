@@ -54,6 +54,7 @@ jobs:
   
       - name: Build tests
         run: |
+          bash &&
           . /opt/ros/${{ matrix.rosdistro }}/setup.sh && 
           colcon build
         shell: bash
