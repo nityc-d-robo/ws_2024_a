@@ -31,9 +31,10 @@ jobs:
         run: |
           rosdep update && 
           apt-get update && 
-          apt-get install -y git &&
+          apt install -y curl gnupg2 lsb-release python3-pip git &&
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh && 
+          source $HOME/.cargo/env &&
           rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }} &&
-          sudo apt -y install python3-pip &&
           pip install git+https://github.com/tier4/colcon-cargo.git --break-system-packages &&
           pip install git+https://github.com/colcon/colcon-ros-cargo.git --break-system-packages &&
           git clone https://github.com/tier4/cargo-ament-build.git &&
