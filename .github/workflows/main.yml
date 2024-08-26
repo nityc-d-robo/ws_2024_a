@@ -41,6 +41,7 @@ jobs:
           cd cargo-ament-build &&
           cargo install --path . &&
           cd ~/
+        shell: bash
       
       - name: Check out repository
         uses: actions/checkout@v3
