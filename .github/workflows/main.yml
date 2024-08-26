@@ -33,7 +33,6 @@ jobs:
           apt install -y curl gnupg2 lsb-release python3-pip git &&
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && 
           . "$HOME/.cargo/env" &&
-          source "$HOME/.cargo/env.fish" &&
           rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }} &&
           pip install git+https://github.com/tier4/colcon-cargo.git --break-system-packages &&
           pip install git+https://github.com/colcon/colcon-ros-cargo.git --break-system-packages &&
@@ -54,6 +53,6 @@ jobs:
   
       - name: Build tests
         run: |
-          bash &&
+          source "$HOME/.cargo/env" &&
           cargo new test_1
         shell: bash
