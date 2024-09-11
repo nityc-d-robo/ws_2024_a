@@ -5,6 +5,9 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  # schedule:
+  #   - cron: '0 0 * * *'
+
 
 jobs:
   build_and_test:
@@ -25,17 +28,30 @@ jobs:
         run: |
           rosdep update && 
           apt-get update && 
-          apt-get install -y git &&
-          rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }}
-      - name: Install diagnostic-updater
-        run: apt-get install ros-${{ matrix.rosdistro }}-diagnostic-updater
-
+          apt install -y curl gnupg2 lsb-release python3-pip git cmake build-essential &&
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && 
+          . "$HOME/.cargo/env" &&
+          rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }} &&
+          pip install git+https://github.com/tier4/colcon-cargo.git --break-system-packages &&
+          pip install git+https://github.com/colcon/colcon-ros-cargo.git --break-system-packages &&
+          git clone https://github.com/tier4/cargo-ament-build.git &&
+          cd cargo-ament-build &&
+          cargo install --path . &&
+          cd ~/
+        shell: bash
+      
       - name: Check out repository
         uses: actions/checkout@v3
         with:
           submodules: recursive 
 
+      - name: Install diagnostic-updater
+        run: apt-get install ros-${{ matrix.rosdistro }}-diagnostic-updater
+        shell: bash      
+  
       - name: Build tests
         run: |
+          source "$HOME/.cargo/env" &&
           . /opt/ros/${{ matrix.rosdistro }}/setup.sh && 
           colcon build
+        shell: bash
