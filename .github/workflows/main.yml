@@ -1,0 +1,72 @@
+name: work space build test 
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build_and_test:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-24.04
+        rosdistro:
+          - jazzy
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive 
+
+      - name: Update submodules to latest
+        run: |
+          git submodule update --init --recursive
+          git submodule update --remote --recursive
+
+      - name: Install ROS 2
+        run: |
+          sudo apt update && sudo apt install -y locales &&
+          sudo locale-gen en_US en_US.UTF-8 &&
+          sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 &&
+          export LANG=en_US.UTF-8 &&
+          sudo apt install -y software-properties-common &&
+          sudo add-apt-repository universe &&
+          sudo apt update && sudo apt install curl -y &&
+          curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg &&
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null &&
+          sudo apt update && sudo apt install -y ros-dev-tools &&
+          sudo apt update &&
+          sudo apt -y upgrade &&
+          sudo apt install -y ros-jazzy-ros-base
+
+      - name: Install dependencies
+        run: |
+          rosdep update && 
+          apt-get update && 
+          apt install -y curl gnupg2 lsb-release python3-pip git &&
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && 
+          . "$HOME/.cargo/env" &&
+          rosdep install --from-path . -i -y --rosdistro ${{ matrix.rosdistro }} &&
+          pip install git+https://github.com/tier4/colcon-cargo.git --break-system-packages &&
+          pip install git+https://github.com/colcon/colcon-ros-cargo.git --break-system-packages &&
+          git clone https://github.com/tier4/cargo-ament-build.git &&
+          cd cargo-ament-build &&
+          cargo install --path . &&
+          cd ~/
+        shell: bash
+
+      - name: Install diagnostic-updater
+        run: apt-get install ros-${{ matrix.rosdistro }}-diagnostic-updater
+        shell: bash      
+
+      - name: Build tests
+        run: |
+          source "$HOME/.cargo/env" &&
+          source /opt/ros/jazzy/setup.bash && 
+          colcon build
+        shell: bash
